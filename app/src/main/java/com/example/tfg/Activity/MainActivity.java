@@ -49,26 +49,40 @@ public class MainActivity extends AppCompatActivity {
     private void displayUsername() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            String username = currentUser.getDisplayName();
-
-            if (username != null && !username.isEmpty()) {
+            // Primero intenta con displayName
+            if (currentUser.getDisplayName() != null && !currentUser.getDisplayName().isEmpty()) {
+                binding.textView4.setText(currentUser.getDisplayName());
+                Log.d("USERNAME", "Nombre mostrado: " + currentUser.getDisplayName());
+            }
+            // Si no hay displayName, usa el email (sin el @)
+            else if (currentUser.getEmail() != null) {
+                String username = currentUser.getEmail().split("@")[0];
                 binding.textView4.setText(username);
-                Log.d("USERNAME", "Mostrando username: " + username);
-            } else {
+                Log.d("USERNAME", "Email usado como nombre: " + username);
+            }
+            // Como último recurso, usa el string de recursos
+            else {
                 binding.textView4.setText(getString(R.string.username));
-                Log.w("USERNAME", "No se encontró username, mostrando valor por defecto");
+                Log.w("USERNAME", "Usando nombre por defecto");
             }
         } else {
-            Log.w("USERNAME", "Usuario no autenticado");
+            // Esto no debería ocurrir porque MainActivity debe ser protegida
+            Log.e("USERNAME", "Usuario nulo en MainActivity");
+            finish(); // Cierra la actividad si no hay usuario
         }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        displayUsername();
+        // Verificar si el usuario está logueado
+        if (mAuth.getCurrentUser() == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        } else {
+            displayUsername();
+        }
     }
-
     private void bottomNavigation() {
         binding.bottomNavigation.setItemSelected(R.id.home, true);
         binding.bottomNavigation.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
