@@ -18,45 +18,56 @@ import com.example.tfg.databinding.ViewholderCartBinding;
 import java.util.ArrayList;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
-    ArrayList<ItemsModel> listItemSelected;
-    ChangeNumberItemsListener changeNumberItemsListener;
-    public ManagmentCart managmentCart;
+    private ArrayList<ItemsModel> listItemSelected;
+    private ChangeNumberItemsListener changeNumberItemsListener;
+    private ManagmentCart managmentCart;
 
-    public CartAdapter(ArrayList<ItemsModel> listItemSelected, Context context, ChangeNumberItemsListener listener) {
-        this.changeNumberItemsListener = changeNumberItemsListener;
+    public CartAdapter(ArrayList<ItemsModel> listItemSelected, Context context, ChangeNumberItemsListener changeNumberItemsListener) {
         this.listItemSelected = listItemSelected;
-        managmentCart=new ManagmentCart(context);
+        this.changeNumberItemsListener = changeNumberItemsListener;
+        this.managmentCart = new ManagmentCart(context);
     }
 
     @NonNull
     @Override
-    public CartAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ViewholderCartBinding binding=ViewholderCartBinding.inflate(LayoutInflater
-                .from(parent.getContext()),parent,false);
+    public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ViewholderCartBinding binding = ViewholderCartBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new Viewholder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CartAdapter.Viewholder holder, int position) {
-    holder.binding.titleTxt.setText(listItemSelected.get(position).getTitle());
-    holder.binding.feeEachItem.setText("$"+listItemSelected.get(position).getPrice());
-    holder.binding.totalEachItem.setText("$"+Math.round((listItemSelected.get(position).getNumberinCart()*
-            listItemSelected.get(position).getPrice())));
-    holder.binding.numberItemTxt.setText(String.valueOf(listItemSelected.get(position).getNumberinCart()));
+    public void onBindViewHolder(@NonNull Viewholder holder, int position) {
+        ItemsModel item = listItemSelected.get(position);
 
-    Glide.with(holder.itemView.getContext())
-            .load(listItemSelected.get(position).getPicUrl().get(0))
-            .into(holder.binding.pic);
+        holder.binding.titleTxt.setText(item.getTitle());
+        holder.binding.feeEachItem.setText("$" + item.getPrice());
+        holder.binding.totalEachItem.setText("$" + Math.round(item.getNumberinCart() * item.getPrice()));
+        holder.binding.numberItemTxt.setText(String.valueOf(item.getNumberinCart()));
 
-    holder.binding.plusCartBtn.setOnClickListener(v -> managmentCart.plusItem(listItemSelected, position, () -> {
-        notifyDataSetChanged();
-        changeNumberItemsListener.changed();
-    }));
+        Glide.with(holder.itemView.getContext())
+                .load(item.getPicUrl().get(0))
+                .into(holder.binding.pic);
 
-    holder.binding.minusCartBtn.setOnClickListener(v -> managmentCart.minusItem(listItemSelected, position, () -> {
-        notifyDataSetChanged();
-        changeNumberItemsListener.changed();
-    }));
+        // Botón Plus
+        holder.binding.plusCartBtn.setOnClickListener(v -> {
+            managmentCart.plusItem(listItemSelected, position, () -> {
+                notifyItemChanged(position);
+                changeNumberItemsListener.changed();
+            });
+        });
+
+        // Botón Minus
+        holder.binding.minusCartBtn.setOnClickListener(v -> {
+            managmentCart.minusItem(listItemSelected, position, () -> {
+                if (item.getNumberinCart() == 0) {
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, listItemSelected.size());
+                } else {
+                    notifyItemChanged(position);
+                }
+                changeNumberItemsListener.changed();
+            });
+        });
     }
 
     @Override
@@ -66,9 +77,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
 
     public class Viewholder extends RecyclerView.ViewHolder {
         ViewholderCartBinding binding;
+
         public Viewholder(ViewholderCartBinding binding) {
             super(binding.getRoot());
-            this.binding=binding;
+            this.binding = binding;
         }
     }
 }

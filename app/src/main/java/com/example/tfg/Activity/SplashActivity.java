@@ -10,14 +10,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.tfg.databinding.ActivitySplashBinding;
 
 public class SplashActivity extends AppCompatActivity {
-private ActivitySplashBinding binding;
+    private ActivitySplashBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        binding=ActivitySplashBinding.inflate(getLayoutInflater());
+        binding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Botón principal - Let's Get Started
         binding.startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -25,5 +27,12 @@ private ActivitySplashBinding binding;
             }
         });
 
+        // Texto Sign In - Para ir al Login
+        binding.textView7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+            }
+        });
     }
 }

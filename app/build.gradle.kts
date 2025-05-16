@@ -44,10 +44,26 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation ("com.squareup.picasso:picasso:2.8")
     implementation("com.google.firebase:firebase-database:20.3.0")
     implementation("com.google.firebase:firebase-auth:22.3.0")
     implementation("com.google.firebase:firebase-core:21.1.1")
     implementation("com.google.code.gson:gson:2.9.1")
     implementation("com.github.bumptech.glide:glide:4.12.0")
     implementation("com.github.ismaeldivita:chip-navigation-bar:1.4.0")
+    implementation ("com.google.firebase:firebase-storage:20.0.0")
+    implementation (platform("com.google.firebase:firebase-bom:32.8.1"))
+
+    // Dependencias de Firebase sin versión (usarán la del BoM)
+    implementation ("com.google.firebase:firebase-auth")
+    implementation ("com.google.firebase:firebase-database")
+    implementation ("com.google.firebase:firebase-storage")
+
+    // Si usas AppCheck (opcional pero recomendado para seguridad)
+    implementation ("com.google.firebase:firebase-appcheck")
+    implementation ("com.google.firebase:firebase-appcheck-debug")
+    implementation ("com.google.firebase:firebase-appcheck:17.1.2")
+
+    // Para el modo debug (opcional, solo en entornos de desarrollo)
+    debugImplementation ("com.google.firebase:firebase-appcheck-debug:17.1.2")
 }

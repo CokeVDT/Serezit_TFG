@@ -60,8 +60,12 @@ public class ManagmentCart {
 
     public Double getTotalFee() {
         ArrayList<ItemsModel> listItem2 = getListCart();
+        if(listItem2 == null || listItem2.isEmpty()) {
+            return 0.0;
+        }
+
         double fee = 0;
-        for (int i = 0; i < listItem2.size(); i++) {
+        for(int i = 0; i < listItem2.size(); i++) {
             fee = fee + (listItem2.get(i).getPrice() * listItem2.get(i).getNumberinCart());
         }
         return fee;

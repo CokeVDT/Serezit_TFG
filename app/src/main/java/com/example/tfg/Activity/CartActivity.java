@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.tfg.Adapter.CartAdapter;
+import com.example.tfg.Domain.ItemsModel;
 import com.example.tfg.Helper.ChangeNumberItemsListener;
 import com.example.tfg.Helper.ManagmentCart;
 import com.example.tfg.R;
@@ -38,16 +39,15 @@ public class CartActivity extends AppCompatActivity {
         if(managmentCart.getListCart().isEmpty()){
             binding.emptyTxt.setVisibility(View.VISIBLE);
             binding.scrollView3.setVisibility(View.GONE);
-        }else{
+        } else {
             binding.emptyTxt.setVisibility(View.GONE);
             binding.scrollView3.setVisibility(View.VISIBLE);
         }
-        binding.cartView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        binding.cartView.setAdapter(new CartAdapter(managmentCart.getListCart(),this, new ChangeNumberItemsListener() {
-            @Override
-            public void changed() {
-                calculatorCart();
-            }
+
+        binding.cartView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        binding.cartView.setAdapter(new CartAdapter(managmentCart.getListCart(), this, () -> {
+            calculatorCart(); // Recalcular cuando cambien los items
+            initCartList();   // Actualizar la lista por si se quedó vacía
         }));
     }
 
@@ -56,15 +56,26 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void calculatorCart() {
-        double percentTax=0.02;
-        double delivery=10;
-        tax=Math.round((managmentCart.getTotalFee()*percentTax*100.0))/100.0;
-        double total=Math.round((managmentCart.getTotalFee()+tax+delivery)*100.0)/100.0;
-        double itemTotal=Math.round((managmentCart.getTotalFee()*100.0))/100.0;
+        double percentTax = 0.02;
+        double delivery = 10;
 
-        binding.totalFeeTxt.setText("$" + itemTotal);
-        binding.taxTxt.setText("$" + delivery);
-        binding.deliveryTxt.setText("$" + delivery);
-        binding.totalTxt.setText("$" + total);
+        if (managmentCart.getListCart().isEmpty()) {
+            // Si el carrito está vacío, mostrar todo en 0
+            binding.totalFeeTxt.setText("$0");
+            binding.taxTxt.setText("$0");
+            binding.deliveryTxt.setText("$0");
+            binding.totalTxt.setText("$0");
+        } else {
+            // Calcular valores normales si hay items en el carrito
+            tax = Math.round((managmentCart.getTotalFee() * percentTax * 100.0)) / 100.0;
+            double total = Math.round((managmentCart.getTotalFee() + tax + delivery) * 100.0) / 100.0;
+            double itemTotal = Math.round((managmentCart.getTotalFee() * 100.0)) / 100.0;
+
+            binding.totalFeeTxt.setText("$" + itemTotal);
+            binding.taxTxt.setText("$" + tax);
+            binding.deliveryTxt.setText("$" + delivery);
+            binding.totalTxt.setText("$" + total);
+        }
     }
+
 }
