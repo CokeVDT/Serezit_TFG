@@ -6,17 +6,28 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tfg.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText usernameEditText, emailEditText, passwordEditText;
     private ProgressDialog progressDialog;
+    private DatabaseReference mDatabase;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         usernameEditText = findViewById(R.id.username);
         emailEditText = findViewById(R.id.email);
@@ -62,8 +74,21 @@ public class RegisterActivity extends AppCompatActivity {
                     progressDialog.dismiss();
 
                     if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
+                        Map<String,Object> map = new HashMap<>();
+                        map.put("name", username);
+                        map.put("email", email);
+                        map.put("password", password);
 
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        String id = mAuth.getCurrentUser().getUid();
+                        mDatabase.child("Users").child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>(){
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task2) {
+                                if (task2.isSuccessful()){
+                                    finish();
+                                }
+                            }
+                        });
                         // Actualizar el displayName del usuario
                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                 .setDisplayName(username)
