@@ -96,8 +96,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initPopular() {
         binding.progressBarPopular.setVisibility(View.VISIBLE);
-        viewModel.loadPopular().observeForever(itemsModels -> {
-            if (!itemsModels.isEmpty()) {
+        viewModel.loadPopular().observe(this, itemsModels -> {
+            if (itemsModels != null && !itemsModels.isEmpty()) {
                 binding.popularView.setLayoutManager(new LinearLayoutManager(
                         MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
                 binding.popularView.setAdapter(new PopularAdapter(itemsModels));
@@ -105,19 +105,19 @@ public class MainActivity extends AppCompatActivity {
             }
             binding.progressBarPopular.setVisibility(View.GONE);
         });
-        viewModel.loadPopular();
     }
+
 
     private void initSlider() {
         binding.progressBarSlider.setVisibility(View.VISIBLE);
-        viewModel.loadBanner().observeForever(bannerModels -> {
+        viewModel.loadBanner().observe(this, bannerModels -> {
             if (bannerModels != null && !bannerModels.isEmpty()) {
                 banners(bannerModels);
-                binding.progressBarSlider.setVisibility(View.GONE);
             }
+            binding.progressBarSlider.setVisibility(View.GONE);
         });
-        viewModel.loadBanner();
     }
+
 
     private void banners(ArrayList<BannerModel> bannerModels) {
         binding.viewPagerSlider.setAdapter(new SliderAdapter(bannerModels, binding.viewPagerSlider));
@@ -134,13 +134,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void initCategory() {
         binding.progressBarCategory.setVisibility(View.VISIBLE);
-        viewModel.loadCategory().observeForever(categoryModels -> {
-            binding.categoryView.setLayoutManager(new LinearLayoutManager(
-                    MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
-            binding.categoryView.setAdapter(new CategoryAdapter(categoryModels));
-            binding.categoryView.setNestedScrollingEnabled(true);
+        viewModel.loadCategory().observe(this, categoryModels -> {
+            if (categoryModels != null) {
+                binding.categoryView.setLayoutManager(new LinearLayoutManager(
+                        MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                binding.categoryView.setAdapter(new CategoryAdapter(categoryModels));
+                binding.categoryView.setNestedScrollingEnabled(true);
+            }
             binding.progressBarCategory.setVisibility(View.GONE);
         });
     }
+
 
 }

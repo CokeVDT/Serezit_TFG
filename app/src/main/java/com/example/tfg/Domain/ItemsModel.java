@@ -6,26 +6,17 @@ import java.util.ArrayList;
 public class ItemsModel implements Serializable {
     private String title;
     private String description;
-    private String offPercent;
-    private ArrayList<String> size;
-    private ArrayList<String> color;
-    private ArrayList<String> picUrl;
-    private double price;
-    private double oldPrice;
+    private String picUrl;
     private int review;
     private double rating;
-    private int NumberinCart;
+    private double price;
+    private String ownerId;
 
     public ItemsModel() {
     }
 
-    public ArrayList<String> getColor() {
-        return color;
-    }
 
-    public void setColor(ArrayList<String> color) {
-        this.color = color;
-    }
+
 
     public String getDescription() {
         return description;
@@ -35,35 +26,12 @@ public class ItemsModel implements Serializable {
         this.description = description;
     }
 
-    public int getNumberinCart() {
-        return NumberinCart;
-    }
 
-    public void setNumberinCart(int numberinCart) {
-        NumberinCart = numberinCart;
-    }
-
-    public String getOffPercent() {
-        return offPercent;
-    }
-
-    public void setOffPercent(String offPercent) {
-        this.offPercent = offPercent;
-    }
-
-    public double getOldPrice() {
-        return oldPrice;
-    }
-
-    public void setOldPrice(double oldPrice) {
-        this.oldPrice = oldPrice;
-    }
-
-    public ArrayList<String> getPicUrl() {
+    public String getPicUrl() {
         return picUrl;
     }
 
-    public void setPicUrl(ArrayList<String> picUrl) {
+    public void setPicUrl(String picUrl) {
         this.picUrl = picUrl;
     }
 
@@ -91,13 +59,6 @@ public class ItemsModel implements Serializable {
         this.review = review;
     }
 
-    public ArrayList<String> getSize() {
-        return size;
-    }
-
-    public void setSize(ArrayList<String> size) {
-        this.size = size;
-    }
 
     public String getTitle() {
         return title;
@@ -105,5 +66,13 @@ public class ItemsModel implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 }

@@ -45,7 +45,7 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.Viewhold
         options=options.transform(new CenterInside());
 
         Glide.with(context)
-                .load(items.get(position).getPicUrl().get(0))
+                .load(items.get(position).getPicUrl())
                 .apply(options)
                 .into(holder.binding.pic);
         holder.itemView.setOnClickListener(v -> {

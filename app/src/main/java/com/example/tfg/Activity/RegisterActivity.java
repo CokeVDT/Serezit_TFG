@@ -18,8 +18,12 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
+
+
 
 public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -42,7 +46,27 @@ public class RegisterActivity extends AppCompatActivity {
 
         findViewById(R.id.registerBtn).setOnClickListener(v -> registerUser());
     }
+    private String md5(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(input.getBytes());
+            StringBuilder hexString = new StringBuilder();
 
+            for (byte b : messageDigest) {
+                String h = Integer.toHexString(0xFF & b);
+                while (h.length() < 2)
+                    h = "0" + h;
+                hexString.append(h);
+            }
+
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
     private void registerUser() {
         String username = usernameEditText.getText().toString().trim();
         String email = emailEditText.getText().toString().trim();
@@ -79,7 +103,12 @@ public class RegisterActivity extends AppCompatActivity {
                         Map<String, Object> map = new HashMap<>();
                         map.put("name", username);
                         map.put("email", email);
-                        map.put("password", password); // ⚠️ No recomendable guardar contraseñas así
+                        map.put("password", md5(password));
+                        FirebaseFirestore.getInstance()
+                                .collection("Users")
+                                .document(id)  // ← Aquí usamos el UID como ID del documento
+                                .set(map);
+
 
                         // 🔁 Guardar datos en Firestore
                         mFirestore.collection("Users").document(id).set(map)

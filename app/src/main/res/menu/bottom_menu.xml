@@ -8,17 +8,11 @@
     app:cnb_backgroundColor="@color/orange"
     app:cnb_iconColor="@color/white"/>
 
-    <item
-        android:id="@+id/favorites"
-        android:icon="@drawable/btn_2"
-        android:title="Favorite"
-        app:cnb_backgroundColor="@color/orange"
-        app:cnb_iconColor="@color/white"/>
 
     <item
         android:id="@+id/cart"
         android:icon="@drawable/btn_3"
-        android:title="Cart"
+        android:title="Chat"
         app:cnb_backgroundColor="@color/orange"
         app:cnb_iconColor="@color/white"/>
 
