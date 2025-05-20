@@ -45,6 +45,8 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation ("com.squareup.picasso:picasso:2.8")
+    implementation ("com.google.firebase:firebase-firestore:24.10.1' // o la última versión")
+
     implementation("com.google.firebase:firebase-database:20.3.0")
     implementation("com.google.firebase:firebase-auth:22.3.0")
     implementation("com.google.firebase:firebase-core:21.1.1")

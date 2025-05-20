@@ -38,37 +38,22 @@ private ManagmentCart managmentCart;
 
         getBundles();
         initPicList();
-        initSize();
-        initColor();
+
     }
 
-    private void initColor() {
-        binding.recyclerColor.setAdapter(new ColorAdapter(object.getColor()));
-        binding.recyclerColor.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
-    }
-
-    private void initSize() {
-        binding.recyclerSize.setAdapter(new SizeAdapter(object.getSize()));
-        binding.recyclerSize.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,true));
-    }
 
     private void initPicList() {
-        ArrayList<String> picList=new ArrayList<>(object.getPicUrl());
+        ArrayList<String> picList = new ArrayList<>(object.getPicUrl());
 
         Glide.with(this)
                 .load(picList.get(0))
                 .into(binding.pic);
 
-        binding.picList.setAdapter(new PicListAdapter(picList,binding.pic));
-        binding.picList.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false));
     }
 
     private void getBundles() {
         object= (ItemsModel) getIntent().getSerializableExtra("object");
         binding.titleTxt.setText(object.getTitle());
-        binding.priceTxt.setText("$"+object.getPrice());
-        binding.oldPriceTxt.setText("$"+object.getOldPrice());
-        binding.oldPriceTxt.setPaintFlags(binding.oldPriceTxt.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
         binding.descriptionTxt.setText(object.getDescription());
         binding.addToCartBtn.setOnClickListener(v -> {
             object.setNumberinCart(numberOrder);

@@ -15,19 +15,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
+    private FirebaseFirestore mFirestore;
+
     private EditText usernameEditText, emailEditText, passwordEditText;
     private ProgressDialog progressDialog;
-    private DatabaseReference mDatabase;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mFirestore = FirebaseFirestore.getInstance(); // 🔁 Firestore en vez de Realtime DB
 
         usernameEditText = findViewById(R.id.username);
         emailEditText = findViewById(R.id.email);
@@ -74,40 +73,46 @@ public class RegisterActivity extends AppCompatActivity {
                     progressDialog.dismiss();
 
                     if (task.isSuccessful()) {
-                        Map<String,Object> map = new HashMap<>();
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        String id = user.getUid();
+
+                        Map<String, Object> map = new HashMap<>();
                         map.put("name", username);
                         map.put("email", email);
-                        map.put("password", password);
+                        map.put("password", password); // ⚠️ No recomendable guardar contraseñas así
 
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        String id = mAuth.getCurrentUser().getUid();
-                        mDatabase.child("Users").child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>(){
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task2) {
-                                if (task2.isSuccessful()){
-                                    finish();
-                                }
-                            }
-                        });
-                        // Actualizar el displayName del usuario
-                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(username)
-                                .build();
+                        // 🔁 Guardar datos en Firestore
+                        mFirestore.collection("Users").document(id).set(map)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task2) {
+                                        if (task2.isSuccessful()) {
+                                            // Actualizar el displayName del usuario
+                                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                    .setDisplayName(username)
+                                                    .build();
 
-                        user.updateProfile(profileUpdates)
-                                .addOnCompleteListener(updateTask -> {
-                                    if (updateTask.isSuccessful()) {
-                                        // Redirigir a MainActivity después de actualizar el nombre
-                                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(intent);
-                                        finish();
-                                    } else {
-                                        Toast.makeText(RegisterActivity.this,
-                                                "Error al guardar nombre de usuario",
-                                                Toast.LENGTH_SHORT).show();
+                                            user.updateProfile(profileUpdates)
+                                                    .addOnCompleteListener(updateTask -> {
+                                                        if (updateTask.isSuccessful()) {
+                                                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                            startActivity(intent);
+                                                            finish();
+                                                        } else {
+                                                            Toast.makeText(RegisterActivity.this,
+                                                                    "Error al guardar nombre de usuario",
+                                                                    Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+                                        } else {
+                                            Toast.makeText(RegisterActivity.this,
+                                                    "Error al guardar en Firestore: " + task2.getException().getMessage(),
+                                                    Toast.LENGTH_LONG).show();
+                                        }
                                     }
                                 });
+
                     } else {
                         Toast.makeText(RegisterActivity.this,
                                 "Error: " + task.getException().getMessage(),
