@@ -11,12 +11,11 @@ public class ItemsModel implements Serializable {
     private double rating;
     private double price;
     private String ownerId;
+    private String id;
+    private ArrayList<String> categorias; // ✅ Campo añadido
 
     public ItemsModel() {
     }
-
-
-
 
     public String getDescription() {
         return description;
@@ -25,7 +24,6 @@ public class ItemsModel implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-
 
     public String getPicUrl() {
         return picUrl;
@@ -59,7 +57,6 @@ public class ItemsModel implements Serializable {
         this.review = review;
     }
 
-
     public String getTitle() {
         return title;
     }
@@ -75,7 +72,6 @@ public class ItemsModel implements Serializable {
     public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
     }
-    private String id;
 
     public String getId() {
         return id;
@@ -85,4 +81,12 @@ public class ItemsModel implements Serializable {
         this.id = id;
     }
 
+    // ✅ Métodos para las categorías
+    public ArrayList<String> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(ArrayList<String> categorias) {
+        this.categorias = categorias;
+    }
 }

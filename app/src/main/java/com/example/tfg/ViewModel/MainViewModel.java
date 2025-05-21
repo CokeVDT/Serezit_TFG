@@ -1,5 +1,7 @@
 package com.example.tfg.ViewModel;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -68,4 +70,28 @@ public class MainViewModel extends ViewModel {
 
         return otherItemsLiveData;
     }
+    public LiveData<ArrayList<ItemsModel>> loadItemsByCategoryExcludingUser(String category, String currentUserId) {
+        MutableLiveData<ArrayList<ItemsModel>> itemsData = new MutableLiveData<>();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("Items")
+                .whereArrayContains("categorias", category)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    ArrayList<ItemsModel> itemList = new ArrayList<>();
+                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                        ItemsModel item = doc.toObject(ItemsModel.class);
+                        if (item.getOwnerId() != null && !item.getOwnerId().equals(currentUserId)) {
+                            item.setId(doc.getId());
+                            itemList.add(item);
+                        }
+                    }
+                    itemsData.setValue(itemList);
+                })
+                .addOnFailureListener(e -> itemsData.setValue(null));
+
+        return itemsData;
+    }
+
+
 }

@@ -77,12 +77,37 @@ public class HomeFragment extends Fragment {
             if (categoryModels != null && !categoryModels.isEmpty()) {
                 binding.categoryView.setLayoutManager(new LinearLayoutManager(
                         getContext(), LinearLayoutManager.HORIZONTAL, false));
-                binding.categoryView.setAdapter(new CategoryAdapter(categoryModels));
+
+                CategoryAdapter.OnCategoryClickListener listener = categoryName -> {
+                    filterItemsByCategory(categoryName); // Aquí filtras
+                };
+
+                binding.categoryView.setAdapter(new CategoryAdapter(categoryModels, listener));
                 binding.categoryView.setNestedScrollingEnabled(true);
             }
             binding.progressBarCategory.setVisibility(View.GONE);
         });
     }
+
+    private void filterItemsByCategory(String categoryName) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) return;
+
+        binding.progressBarPopular.setVisibility(View.VISIBLE);
+
+        viewModel.loadItemsByCategoryExcludingUser(categoryName, currentUser.getUid())
+                .observe(getViewLifecycleOwner(), itemsModels -> {
+                    if (itemsModels != null) {
+                        binding.popularView.setLayoutManager(new LinearLayoutManager(
+                                getContext(), LinearLayoutManager.HORIZONTAL, false));
+                        binding.popularView.setAdapter(new PopularAdapter(itemsModels));
+                        binding.popularView.setNestedScrollingEnabled(true);
+                    }
+                    binding.progressBarPopular.setVisibility(View.GONE);
+                });
+    }
+
+
 
     private void initSlider() {
         binding.progressBarSlider.setVisibility(View.VISIBLE);

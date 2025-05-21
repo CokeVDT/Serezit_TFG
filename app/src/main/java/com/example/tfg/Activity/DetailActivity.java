@@ -46,6 +46,14 @@ public class DetailActivity extends AppCompatActivity {
                 .load(item.getPicUrl())
                 .into(binding.pic);
 
+        // Mostrar categorías
+        if (item.getCategorias() != null && !item.getCategorias().isEmpty()) {
+            String categoriasTexto = String.join(", ", item.getCategorias());
+            binding.categoriesTxt.setText(categoriasTexto);
+        } else {
+            binding.categoriesTxt.setText("Sin categorías");
+        }
+
         if (item.getOwnerId() != null) {
             loadUsername(item.getOwnerId());
         } else {
@@ -54,6 +62,7 @@ public class DetailActivity extends AppCompatActivity {
 
         binding.addToCartBtn.setText("Enviar mensaje");
     }
+
 
     private void loadUsername(String ownerId) {
         db.collection("Users").document(ownerId)
