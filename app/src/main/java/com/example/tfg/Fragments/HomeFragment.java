@@ -108,17 +108,23 @@ public class HomeFragment extends Fragment {
     }
 
     private void initPopular() {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) return;
+
         binding.progressBarPopular.setVisibility(View.VISIBLE);
-        viewModel.loadPopular().observe(getViewLifecycleOwner(), itemsModels -> {
-            if (itemsModels != null && !itemsModels.isEmpty()) {
-                binding.popularView.setLayoutManager(new LinearLayoutManager(
-                        getContext(), LinearLayoutManager.HORIZONTAL, false));
-                binding.popularView.setAdapter(new PopularAdapter(itemsModels));
-                binding.popularView.setNestedScrollingEnabled(true);
-            }
-            binding.progressBarPopular.setVisibility(View.GONE);
-        });
+
+        viewModel.loadItemsExcludingUser(currentUser.getUid())
+                .observe(getViewLifecycleOwner(), itemsModels -> {
+                    if (itemsModels != null && !itemsModels.isEmpty()) {
+                        binding.popularView.setLayoutManager(new LinearLayoutManager(
+                                getContext(), LinearLayoutManager.HORIZONTAL, false));
+                        binding.popularView.setAdapter(new PopularAdapter(itemsModels));
+                        binding.popularView.setNestedScrollingEnabled(true);
+                    }
+                    binding.progressBarPopular.setVisibility(View.GONE);
+                });
     }
+
 
     @Override
     public void onDestroyView() {

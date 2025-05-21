@@ -5,7 +5,7 @@
     android:padding="24dp"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@color/white">
+    android:background="@color/lightGrey">
 
     <TextView
         android:id="@+id/profileTitle"
@@ -44,13 +44,48 @@
         android:textColor="@color/black"
         android:layout_marginBottom="24dp"/>
 
+    <TextView
+        android:id="@+id/myItemsLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="My Items"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/userItemsRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:paddingBottom="8dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBarUserItems"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"/>
+    <Button
+        android:id="@+id/addProductBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Añadir producto"
+        android:backgroundTint="@color/orange"
+        android:textColor="@color/white"
+        android:layout_margin="16dp"/>
+
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
-        android:text="Cerrar sesión"
+        android:layout_marginTop="2dp"
         android:backgroundTint="@color/red"
-        android:textColor="@android:color/white"/>
+        android:text="Cerrar sesión"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>
