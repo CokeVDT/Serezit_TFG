@@ -46,6 +46,9 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation ("com.squareup.picasso:picasso:2.8")
     implementation ("com.google.firebase:firebase-firestore:24.10.1' // o la última versión")
+    implementation ("com.github.bumptech.glide:glide:4.11.0") // para cargar imagen
+    implementation ("com.squareup.okhttp3:okhttp:4.9.1")      // para HTTP requests
+
 
     implementation("com.google.firebase:firebase-database:20.3.0")
     implementation("com.google.firebase:firebase-auth:22.3.0")
