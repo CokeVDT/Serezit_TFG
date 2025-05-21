@@ -74,10 +74,10 @@
                 android:layout_weight="1"
                 android:background="@drawable/stroke_bg"
                 android:drawableStart="@drawable/search_icon"
-                android:drawableEnd="@drawable/microphone"
                 android:drawablePadding="8dp"
                 android:ems="10"
                 android:hint="Search..."
+                android:textColorHint="@color/grey"
                 android:inputType="text"
                 android:paddingHorizontal="16dp" />
         </LinearLayout>

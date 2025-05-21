@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/lightGrey"
     android:padding="16dp">
 
     <ImageView
@@ -10,30 +11,38 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:scaleType="centerCrop"
-        android:background="@color/lightGrey" />
+        android:background="@color/white"/>
 
     <Button
         android:id="@+id/imageSelectBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Seleccionar imagen" />
+        android:text="Seleccionar imagen"
+        android:backgroundTint="@color/orange"
+        android:textColor="@android:color/white"/>
 
     <EditText
         android:id="@+id/titleInput"
         android:hint="Nombre del producto"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/descriptionInput"
         android:hint="Descripción"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/priceInput"
         android:hint="Precio"
+        android:textColor="@color/black"
         android:inputType="numberDecimal"
+        android:textColorHint="@color/grey"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

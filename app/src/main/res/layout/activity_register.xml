@@ -25,7 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:hint="username" />
+            android:hint="username"
+            android:textColorHint="@color/grey"/>
 
         <EditText
             android:id="@+id/email"
@@ -34,7 +35,8 @@
             android:textColor="@color/black"
             android:hint="Email"
             android:inputType="textEmailAddress"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:textColorHint="@color/grey"/>
 
         <EditText
             android:id="@+id/password"
@@ -42,6 +44,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:hint="Password"
+            android:textColorHint="@color/grey"
             android:inputType="textPassword"
             android:layout_marginTop="16dp" />
 

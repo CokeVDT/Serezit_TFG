@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
+        android:textColorHint="@color/grey"
         android:hint="Email"
         android:inputType="textEmailAddress"/>
 
@@ -18,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
+        android:textColorHint="@color/grey"
         android:hint="Password"
         android:inputType="textPassword"
         android:layout_marginTop="16dp"/>
