@@ -49,7 +49,7 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.11.0") // para cargar imagen
     implementation ("com.squareup.okhttp3:okhttp:4.9.1")
     implementation ("com.cloudinary:cloudinary-android:2.3.1")
-
+    implementation ("androidx.appcompat:appcompat:1.6.1")
 
 
     implementation("com.google.firebase:firebase-database:20.3.0")

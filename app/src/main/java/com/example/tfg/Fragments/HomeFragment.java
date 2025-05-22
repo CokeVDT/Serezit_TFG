@@ -1,7 +1,8 @@
 package com.example.tfg.Fragments;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,13 +38,16 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         mAuth = FirebaseAuth.getInstance();
+
         displayUsername();
         initCategory();
         initSlider();
         initPopular();
+        initSearchListener();
 
         return binding.getRoot();
     }
+
     private void displayUsername() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
@@ -55,14 +59,14 @@ public class HomeFragment extends Fragment {
             } else {
                 binding.textView4.setText(getString(R.string.username));
             }
+
             if (currentUser.getPhotoUrl() != null) {
                 Glide.with(this)
                         .load(currentUser.getPhotoUrl())
-                        .circleCrop()  // para que sea circular (opcional)
-                        .placeholder(R.drawable.ic_profile_placeholder) // imagen por defecto mientras carga
+                        .circleCrop()
+                        .placeholder(R.drawable.ic_profile_placeholder)
                         .into(binding.profileImageView);
             } else {
-                // Imagen por defecto si no tiene foto
                 binding.profileImageView.setImageResource(R.drawable.ic_profile_placeholder);
             }
         } else {
@@ -79,7 +83,7 @@ public class HomeFragment extends Fragment {
                         getContext(), LinearLayoutManager.HORIZONTAL, false));
 
                 CategoryAdapter.OnCategoryClickListener listener = categoryName -> {
-                    filterItemsByCategory(categoryName); // Aquí filtras
+                    filterItemsByCategory(categoryName);
                 };
 
                 binding.categoryView.setAdapter(new CategoryAdapter(categoryModels, listener));
@@ -107,8 +111,6 @@ public class HomeFragment extends Fragment {
                 });
     }
 
-
-
     private void initSlider() {
         binding.progressBarSlider.setVisibility(View.VISIBLE);
         viewModel.loadBanner().observe(getViewLifecycleOwner(), bannerModels -> {
@@ -128,7 +130,6 @@ public class HomeFragment extends Fragment {
 
         CompositePageTransformer transformer = new CompositePageTransformer();
         transformer.addTransformer(new MarginPageTransformer(40));
-
         binding.viewPagerSlider.setPageTransformer(transformer);
     }
 
@@ -150,6 +151,42 @@ public class HomeFragment extends Fragment {
                 });
     }
 
+    private void initSearchListener() {
+        binding.searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String query = s.toString().trim();
+                if (!query.isEmpty()) {
+                    buscarItemsPorTitulo(query);
+                } else {
+                    initPopular(); // Mostrar populares si se borra el texto
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
+
+    private void buscarItemsPorTitulo(String query) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) return;
+
+        binding.progressBarPopular.setVisibility(View.VISIBLE);
+
+        viewModel.searchItemsByTitle(query, currentUser.getUid()).observe(getViewLifecycleOwner(), itemsModels -> {
+            if (itemsModels != null) {
+                binding.popularView.setLayoutManager(new LinearLayoutManager(
+                        getContext(), LinearLayoutManager.HORIZONTAL, false));
+                binding.popularView.setAdapter(new PopularAdapter(itemsModels));
+                binding.popularView.setNestedScrollingEnabled(true);
+            }
+            binding.progressBarPopular.setVisibility(View.GONE);
+        });
+    }
 
     @Override
     public void onDestroyView() {

@@ -92,6 +92,26 @@ public class MainViewModel extends ViewModel {
 
         return itemsData;
     }
+    public LiveData<ArrayList<ItemsModel>> searchItemsByTitle(String query, String excludeUserId) {
+        MutableLiveData<ArrayList<ItemsModel>> itemsLiveData = new MutableLiveData<>();
+
+        FirebaseFirestore.getInstance().collection("Items")
+                .whereGreaterThanOrEqualTo("title", query)
+                .whereLessThanOrEqualTo("title", query + "\uf8ff")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    ArrayList<ItemsModel> itemsList = new ArrayList<>();
+                    for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                        ItemsModel item = doc.toObject(ItemsModel.class);
+                        if (item != null && !item.getOwnerId().equals(excludeUserId)) {
+                            itemsList.add(item);
+                        }
+                    }
+                    itemsLiveData.setValue(itemsList);
+                });
+
+        return itemsLiveData;
+    }
 
 
 }

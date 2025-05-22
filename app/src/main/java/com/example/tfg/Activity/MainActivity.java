@@ -16,6 +16,7 @@ import com.example.tfg.Adapter.CategoryAdapter;
 import com.example.tfg.Adapter.PopularAdapter;
 import com.example.tfg.Adapter.SliderAdapter;
 import com.example.tfg.Domain.BannerModel;
+import com.example.tfg.Fragments.ChatListFragment;
 import com.example.tfg.Fragments.HomeFragment;
 import com.example.tfg.Fragments.ProfileFragment;
 import com.example.tfg.R;
@@ -66,14 +67,17 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new HomeFragment();
             } else if (itemId == R.id.profile) {
                 fragment = new ProfileFragment();
+            } else if (itemId == R.id.chat) {
+                fragment = new ChatListFragment();
             }
 
             if (fragment != null) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, fragment).commit();
+                        .replace(R.id.fragment_container, fragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
-
-
     }
+
 }

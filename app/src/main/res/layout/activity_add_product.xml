@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:scaleType="centerCrop"
-        android:background="@color/white"/>
+        android:background="@color/white" />
 
     <Button
         android:id="@+id/imageSelectBtn"
@@ -19,38 +19,64 @@
         android:layout_height="wrap_content"
         android:text="Seleccionar imagen"
         android:backgroundTint="@color/orange"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white" />
 
     <EditText
         android:id="@+id/titleInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:hint="Nombre del producto"
         android:textColor="@color/black"
-        android:textColorHint="@color/grey"
+        android:textColorHint="@color/grey" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/categoryInputLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="Categorías">
+
+        <TextView
+            android:id="@+id/categoryDropdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:background="?attr/editTextBackground"
+            android:padding="12dp"
+            android:textColor="@color/black"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="Selecciona categorías" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <EditText
         android:id="@+id/descriptionInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:hint="Descripción"
         android:textColor="@color/black"
-        android:textColorHint="@color/grey"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:textColorHint="@color/grey" />
 
     <EditText
         android:id="@+id/priceInput"
-        android:hint="Precio"
-        android:textColor="@color/black"
-        android:inputType="numberDecimal"
-        android:textColorHint="@color/grey"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="Precio"
+        android:inputType="numberDecimal"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey" />
 
     <Button
         android:id="@+id/publishBtn"
-        android:text="Publicar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Publicar"
         android:backgroundTint="@color/orange"
         android:textColor="@android:color/white" />
+
 </LinearLayout>

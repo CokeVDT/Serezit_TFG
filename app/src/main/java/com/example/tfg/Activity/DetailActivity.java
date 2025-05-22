@@ -1,5 +1,6 @@
 package com.example.tfg.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -12,7 +13,14 @@ import com.example.tfg.R;
 import com.example.tfg.databinding.ActivityDetailBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -96,9 +104,13 @@ public class DetailActivity extends AppCompatActivity {
             binding.addToCartBtn.setText("Enviar mensaje");
             binding.addToCartBtn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.orange));
             binding.addToCartBtn.setOnClickListener(v -> {
-                // Aquí pon tu lógica de chat o contacto
-                Toast.makeText(this, "Abrir chat con el vendedor", Toast.LENGTH_SHORT).show();
+                if (item.getOwnerId() != null) {
+                    openChatWithOwner(item.getOwnerId());
+                } else {
+                    Toast.makeText(this, "ID del propietario no disponible", Toast.LENGTH_SHORT).show();
+                }
             });
+
         }
     }
 
@@ -116,4 +128,47 @@ public class DetailActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Error al eliminar", Toast.LENGTH_SHORT).show());
     }
+    private void openChatWithOwner(String ownerUid) {
+        String currentUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Buscar si chat ya existe
+        db.collection("chats")
+                .whereArrayContains("participants", currentUserUid)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    for (DocumentSnapshot doc : querySnapshot) {
+                        List<String> participants = (List<String>) doc.get("participants");
+                        if (participants.contains(ownerUid)) {
+                            // Chat encontrado, abrir chat
+                            openChatActivity(doc.getId(), ownerUid);
+                            return;
+                        }
+                    }
+                    // Si no se encontró, crear chat nuevo
+                    createChat(ownerUid);
+                });
+    }
+
+    private void createChat(String ownerUid) {
+        String currentUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Map<String, Object> chat = new HashMap<>();
+        chat.put("participants", Arrays.asList(currentUserUid, ownerUid));
+        chat.put("lastMessage", "");
+        chat.put("lastTimestamp", FieldValue.serverTimestamp());
+
+        db.collection("chats").add(chat).addOnSuccessListener(documentReference -> {
+            openChatActivity(documentReference.getId(), ownerUid);
+        });
+    }
+
+    private void openChatActivity(String chatId, String ownerUid) {
+        Intent intent = new Intent(this, ChatActivity.class);
+        intent.putExtra("chatId", chatId);
+        intent.putExtra("ownerUid", ownerUid);
+        startActivity(intent);
+    }
+
 }
