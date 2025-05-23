@@ -7,19 +7,36 @@
     android:orientation="vertical"
     android:background="#ffffff">
 
-    <!-- Toolbar o header con el nombre del usuario -->
-    <TextView
-        android:id="@+id/chatHeaderTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="Nombre Usuario"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:background="#6200EE"
-        android:textColor="#FFFFFF" />
+    <!-- Header con imagen y nombre del usuario -->
 
     <!-- RecyclerView para mostrar mensajes -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/orange"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/profileImageView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/ic_profile_placeholder"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_foreground" />
+
+        <TextView
+            android:id="@+id/chatHeaderTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Nombre Usuario"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messagesRecyclerView"
         android:layout_width="match_parent"
@@ -27,7 +44,7 @@
         android:layout_weight="1"
         android:padding="8dp" />
 
-    <!-- Área de texto para escribir mensaje y botón enviar -->
+    <!-- Campo de texto y botón para enviar mensaje -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,11 +58,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="Escribe un mensaje..."
+            android:textColorHint="@color/grey"
+            android:textColor="@color/black"
             android:inputType="textMultiLine"
             android:maxLines="4"
             android:minLines="1"
             android:background="@android:drawable/edit_text"
-            android:padding="8dp"/>
+            android:padding="8dp" />
 
         <ImageButton
             android:id="@+id/sendMessageButton"

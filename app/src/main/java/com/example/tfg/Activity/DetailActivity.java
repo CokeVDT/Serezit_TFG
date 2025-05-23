@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.tfg.Domain.ItemsModel;
+import com.example.tfg.Fragments.ChatFragment;
 import com.example.tfg.R;
 import com.example.tfg.databinding.ActivityDetailBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -165,7 +166,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void openChatActivity(String chatId, String ownerUid) {
-        Intent intent = new Intent(this, ChatActivity.class);
+        Intent intent = new Intent(this, ChatContainerActivity.class);
         intent.putExtra("chatId", chatId);
         intent.putExtra("ownerUid", ownerUid);
         startActivity(intent);

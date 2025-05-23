@@ -40,6 +40,9 @@
         <activity android:name=".Activity.AddProductActivity" />
         <activity android:name=".Activity.ChatActivity" />
         <activity android:name=".Activity.ChatListActivity" />
+        <activity android:name=".Activity.ChatContainerActivity"
+            android:exported="false"/>
+
 
 
     </application>
