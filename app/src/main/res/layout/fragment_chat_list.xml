@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/chatListFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="16dp">
 
+    <!-- Título grande -->
+    <TextView
+        android:id="@+id/chatListTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chat list"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Lista de chats -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewChatList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
-
-</FrameLayout>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+</LinearLayout>

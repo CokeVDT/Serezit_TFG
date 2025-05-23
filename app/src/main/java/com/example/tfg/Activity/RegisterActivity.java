@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.tfg.R;
+import com.example.tfg.databinding.ActivityLoginBinding;
+import com.example.tfg.databinding.ActivityRegisterBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -50,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore mFirestore;
-
+    private ActivityRegisterBinding binding;
     private Uri imageUri;
     private ImageView profileImage;
     private EditText usernameEditText, emailEditText, passwordEditText;
@@ -82,6 +84,11 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         registerBtn.setOnClickListener(v -> registerUser());
+
+        findViewById(R.id.loginLink).setOnClickListener(v -> {
+            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+        });
+
     }
 
     @Override
@@ -192,6 +199,9 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(RegisterActivity.this, "Error al subir imagen a Cloudinary", Toast.LENGTH_SHORT).show();
                         });
                     }
+                    findViewById(R.id.loginLink).setOnClickListener(v -> {
+                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                    });
                 }
             });
 

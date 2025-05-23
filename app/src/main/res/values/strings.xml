@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">TFG</string>
+    <string name="app_name">Serezit</string>
     <string name="title_splash"><font color="#dc6f31">Your Shoping</font> Destination \nfor Everything</string>
-    <string name="subtitle_splash">Get personalized recommendations \nEnjoy fast, free shipping</string>
-    <string name="singin">Already have an account ? <font color="#dc6f31"> SignIn</font></string>
+    <string name="subtitle_splash">Get personalized recommendations \nEnjoy fast and free shipping</string>
+    <string name="singin">You dont have an account ? <font color="#dc6f31"> Sign Up</font></string>
     <string name="username">Usuario</string>
 </resources>

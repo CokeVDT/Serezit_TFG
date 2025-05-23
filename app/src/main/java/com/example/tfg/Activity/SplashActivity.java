@@ -23,7 +23,7 @@ public class SplashActivity extends AppCompatActivity {
         binding.startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
             }
         });
 
@@ -31,7 +31,7 @@ public class SplashActivity extends AppCompatActivity {
         binding.textView7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                startActivity(new Intent(SplashActivity.this, RegisterActivity.class));
             }
         });
     }

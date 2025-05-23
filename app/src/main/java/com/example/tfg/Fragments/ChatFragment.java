@@ -142,14 +142,19 @@ public class ChatFragment extends Fragment {
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         String name = documentSnapshot.getString("name");
-                        String profileUrl = documentSnapshot.getString("profileImage");
+                        String profileUrl = documentSnapshot.getString("photoUrl");
 
                         if (name != null) {
                             usernameTextView.setText(name);
                         }
 
                         if (profileUrl != null && !profileUrl.isEmpty()) {
-                            Glide.with(requireContext()).load(profileUrl).into(profileImageView);
+                            Glide.with(requireContext())
+                                    .load(profileUrl)
+                                    .circleCrop() // 👈 Hace la imagen circular
+                                    .placeholder(R.drawable.ic_profile_placeholder)
+                                    .error(R.drawable.ic_profile_placeholder)
+                                    .into(profileImageView);
                         }
                     }
                 });

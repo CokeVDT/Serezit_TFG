@@ -60,16 +60,16 @@ public class DetailActivity extends AppCompatActivity {
             String categoriasTexto = String.join(", ", item.getCategorias());
             binding.categoriesTxt.setText(categoriasTexto);
         } else {
-            binding.categoriesTxt.setText("Sin categorías");
+            binding.categoriesTxt.setText("No categories");
         }
 
         if (item.getOwnerId() != null) {
             loadUsername(item.getOwnerId());
         } else {
-            binding.ownerTxt.setText("Vendido por: Desconocido");
+            binding.ownerTxt.setText("Sold by: Desconocido");
         }
 
-        binding.addToCartBtn.setText("Enviar mensaje");
+        binding.addToCartBtn.setText("Send Message");
     }
 
 
@@ -80,15 +80,15 @@ public class DetailActivity extends AppCompatActivity {
                     if (documentSnapshot.exists()) {
                         String username = documentSnapshot.getString("name"); // Ajusta según tu campo
                         if (username != null && !username.isEmpty()) {
-                            binding.ownerTxt.setText("Vendido por: " + username);
+                            binding.ownerTxt.setText("Sold by: " + username);
                         } else {
-                            binding.ownerTxt.setText("Vendido por: Usuario desconocido");
+                            binding.ownerTxt.setText("Sold by: Usuario desconocido");
                         }
                     } else {
-                        binding.ownerTxt.setText("Vendido por: Usuario no encontrado");
+                        binding.ownerTxt.setText("Sold by: Usuario no encontrado");
                     }
                 })
-                .addOnFailureListener(e -> binding.ownerTxt.setText("Vendido por: Error al cargar usuario"));
+                .addOnFailureListener(e -> binding.ownerTxt.setText("Sold by: Error al cargar usuario"));
     }
 
     private void configurarBotonAccion() {
@@ -97,12 +97,12 @@ public class DetailActivity extends AppCompatActivity {
 
         if (item.getOwnerId() != null && item.getOwnerId().equals(currentUserId)) {
             // Producto del usuario actual → botón rojo eliminar
-            binding.addToCartBtn.setText("Eliminar producto");
+            binding.addToCartBtn.setText("Delete product");
             binding.addToCartBtn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.red));
             binding.addToCartBtn.setOnClickListener(v -> eliminarProducto());
         } else {
             // Producto de otro usuario → enviar mensaje
-            binding.addToCartBtn.setText("Enviar mensaje");
+            binding.addToCartBtn.setText("Send message");
             binding.addToCartBtn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.orange));
             binding.addToCartBtn.setOnClickListener(v -> {
                 if (item.getOwnerId() != null) {

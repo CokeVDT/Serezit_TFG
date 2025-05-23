@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="Perfil de Usuario"
+        android:text="User Profile"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold" />
@@ -74,7 +74,7 @@
         android:id="@+id/addProductBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Añadir producto"
+        android:text="Add product"
         android:backgroundTint="@color/orange"
         android:textColor="@color/white"
         android:layout_margin="16dp"/>
@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:backgroundTint="@color/red"
-        android:text="Cerrar sesión"
+        android:text="Log out"
         android:textColor="@android:color/white" />
 
 </LinearLayout>

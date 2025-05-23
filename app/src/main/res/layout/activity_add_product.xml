@@ -3,8 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
     android:background="@color/lightGrey"
     android:padding="16dp">
+    <TextView
+        android:id="@+id/addProductTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New product"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_marginBottom="24dp" />
+
 
     <ImageView
         android:id="@+id/imagePreview"
@@ -17,7 +29,7 @@
         android:id="@+id/imageSelectBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Seleccionar imagen"
+        android:text="Select image"
         android:backgroundTint="@color/orange"
         android:textColor="@android:color/white" />
 
@@ -26,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:hint="Nombre del producto"
+        android:hint="Product name"
         android:textColor="@color/black"
         android:textColorHint="@color/grey" />
 
@@ -35,19 +47,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:hint="Categorías">
+        android:hint="Categories">
 
         <TextView
             android:id="@+id/categoryDropdown"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:background="?attr/editTextBackground"
             android:padding="12dp"
             android:textColor="@color/black"
             android:clickable="true"
             android:focusable="true"
-            android:text="Selecciona categorías" />
+            android:text="Select categories" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -56,7 +67,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:hint="Descripción"
+        android:hint="Description"
         android:textColor="@color/black"
         android:textColorHint="@color/grey" />
 
@@ -65,7 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:hint="Precio"
+        android:hint="Price"
         android:inputType="numberDecimal"
         android:textColor="@color/black"
         android:textColorHint="@color/grey" />
@@ -75,7 +86,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Publicar"
+        android:text="Publish"
         android:backgroundTint="@color/orange"
         android:textColor="@android:color/white" />
 
